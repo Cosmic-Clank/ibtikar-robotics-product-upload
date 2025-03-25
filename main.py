@@ -1,10 +1,5 @@
 import streamlit as st
 from supabase import create_client
-import os
-from datetime import datetime
-import uuid
-from PIL import Image
-import io
 
 import utils
 
