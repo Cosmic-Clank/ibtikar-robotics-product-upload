@@ -55,6 +55,25 @@ else:
         current = st.session_state.specs
         st.session_state.specs = current[:spec_count] + \
             [{"name": "", "value": ""}] * (spec_count - len(current))
+            
+    st.markdown("### 📂 Category Selection")
+
+    categories = [
+        "ai service robot",
+        "delivery robot",
+        "warehouse robot",
+        "rental robot",
+        "education solution",
+        "➕ Add new category..."
+    ]
+
+    selected = st.selectbox("Category", categories, key="category_select")
+
+    if selected == "➕ Add new category...":
+        new_category = st.text_input("Enter new category", key="custom_category_input")
+        category = new_category if new_category else None
+    else:
+        category = selected
 
     # --- Product Form ---
     with st.form("product_form"):
@@ -70,8 +89,7 @@ else:
 
         product_name = st.text_input(
             "Name of product", placeholder="Ex. GreetingBot Mini")
-        category = st.selectbox("Category", [
-            "ai service robot", "delivery robot", "warehouse robot", "rental robot", "education solution"])
+        st.text("Selected Category: " + category if category else "No category selected")
         description = st.text_area(
             "Description", placeholder="Long description of the product")
         tagline = st.text_input(
@@ -123,7 +141,7 @@ else:
             product_table_data = {
                 # Convert UUID to bigint
                 "name": product_name,
-                "category": category,
+                "category": category.lower(),
                 "description": description,
                 "tagline": tagline,
                 "short_description": short_description,
